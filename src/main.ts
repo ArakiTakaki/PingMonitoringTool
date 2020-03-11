@@ -20,14 +20,17 @@ app.on('ready',function(){
     show: true,
     frame: false,
     resizable: false,
+    // transparent: true,
     webPreferences: {
       nodeIntegration: true,
     },
   });
   mainWindow.loadFile(resolve(__dirname, './index.html'));
   mainWindow.setMenu(null);
-  mainWindow.setIgnoreMouseEvents(true);
-  mainWindow.setAlwaysOnTop(true);
+  // mainWindow.setIgnoreMouseEvents(true);
+  // mainWindow.setAlwaysOnTop(true);
+  mainWindow.webContents.openDevTools();
+
   mainWindow.on("closed" ,function(){
   	app.quit();
   });
