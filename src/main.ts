@@ -1,6 +1,7 @@
 import { app, BrowserWindow, screen } from 'electron';
 import { resolve } from 'path';
 
+const isDev = false;
 // window.gcをonにする
 app.commandLine.appendSwitch('js-flags', '--expose-gc');
 
@@ -20,16 +21,16 @@ app.on('ready',function(){
     show: true,
     frame: false,
     resizable: false,
-    // transparent: true,
+    transparent: isDev ? false : true,
     webPreferences: {
       nodeIntegration: true,
     },
   });
   mainWindow.loadFile(resolve(__dirname, './index.html'));
   mainWindow.setMenu(null);
-  // mainWindow.setIgnoreMouseEvents(true);
-  // mainWindow.setAlwaysOnTop(true);
-  mainWindow.webContents.openDevTools();
+  isDev && mainWindow.setIgnoreMouseEvents(true);
+  isDev && mainWindow.setAlwaysOnTop(true);
+  !isDev && mainWindow.webContents.openDevTools();
 
   mainWindow.on("closed" ,function(){
   	app.quit();
