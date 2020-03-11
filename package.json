@@ -4,16 +4,38 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "electron ./bin/main.js",
     "test": "ts-node src/main.ts"
   },
   "dependencies": {
     "@types/node": "^13.9.0",
+    "chalk": "^3.0.0",
     "clear": "^0.1.0",
+    "electron": "^8.1.1",
+    "electron-builder": "^22.4.0",
+    "ping": "^0.2.2",
     "tsc": "^1.20150623.0",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
     "@types/clear": "^0.1.0",
+    "@types/electron": "^1.6.10",
+    "@types/ping": "^0.2.0",
     "ts-node": "^8.6.2"
+  },
+  "build": {
+    "appId": "idw-electron-builder",
+    "productName": "DIW - digital information wall",
+    "copyright": "Copyright teamLab inc. All rights reserved",
+    "win": {
+      "target": "zip"
+    },
+    "mac": {
+      "target": "zip"
+    },
+    "files": [
+      "./src/index.html"
+    ]
   }
 }

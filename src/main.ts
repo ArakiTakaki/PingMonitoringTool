@@ -1,60 +1,34 @@
-import { exec } from 'child_process';
-import { ERROR } from './errors';
-import clear from 'clear';
-import { GLOBAL_CONFIG } from './config';
+import { app, BrowserWindow, screen } from 'electron';
+import { resolve } from 'path';
 
-const stringBar = (barLength: number, barString: string = '-', maxLength?: number) => {
-  let str = '';
-  for (let i = 0; i < barLength && i < (maxLength || Infinity); i++) {
-    str += barString;
+// window.gcをonにする
+app.commandLine.appendSwitch('js-flags', '--expose-gc');
+
+app.on('window-all-closed',function(){
+  if(process.platform !== 'darwin'){
+    app.quit();
   }
-  return `${str}`;
-}
+});
 
-// 
-const pingBarString = (option: {
-  accessURL: string,
-  barString?: string,
-}) => {
-  return new Promise((resolve, reject) => {
-    exec(`ping ${option.accessURL} -n 1`, (err, stdout) => {
-      // validation
-      if (err != null) {
-        reject(err);
-        return;
-      }
-      const strMsArray = stdout.match(/(\d)+ms/);
-      if (strMsArray == null) {
-        reject(ERROR.MATCH_NOT_HOUND_EXCEPTION(stdout));
-        return;
-      }
-
-      const mills = Number(strMsArray[0].replace('ms', ''));
-      if (Number.isNaN(mills)) {
-        reject(ERROR.IS_NAN_EXCEPTION(strMsArray[0]));
-        return;
-      }
-
-      const srtMills = `_____${mills.toString()}`.slice(-4);
-      // view logick
-      resolve(`${srtMills}ms | ${stringBar(mills, GLOBAL_CONFIG.PING_BAR_STRING, 100)}`);
-      return;
-    });
-  })
-};
-
-const main = () => {
-  const loop = async () => {
-    const pingBar = await pingBarString({
-      accessURL: GLOBAL_CONFIG.ACCESS_URL,
-      barString: GLOBAL_CONFIG.PING_BAR_STRING,
-    });
-    clear({fullClear: true});
-    console.log(`NOW PING - ${GLOBAL_CONFIG.ACCESS_URL}`)
-    console.log(pingBar, '\n');
-    setTimeout(loop, 1000);
-  }
-  loop();
-};
-
-main();
+app.on('ready',function(){
+  const { width, height } = screen.getPrimaryDisplay().size;
+  const mainWindow = new BrowserWindow({ 
+    x: 0,
+    y: 0, 
+    width: width,
+    height: height,
+    show: true,
+    frame: false,
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+  mainWindow.loadFile(resolve(__dirname, './index.html'));
+  mainWindow.setMenu(null);
+  mainWindow.setIgnoreMouseEvents(true);
+  mainWindow.setAlwaysOnTop(true);
+  mainWindow.on("closed" ,function(){
+  	app.quit();
+  });
+});
