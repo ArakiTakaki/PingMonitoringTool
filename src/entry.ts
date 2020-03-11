@@ -1,5 +1,5 @@
-const divElement = document.createElement('div');
-divElement.style.width = '100px';
-divElement.style.height = '100px';
-divElement.style.backgroundColor = '#aaa';
-document.body.appendChild(divElement);
+import * as React from 'react';
+import ReactDOM from 'react-dom';
+import Sample from './components/entry';
+
+ReactDOM.render(React.createElement(Sample), document.getElementById('app'));
