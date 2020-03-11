@@ -28,9 +28,9 @@ app.on('ready',function(){
   });
   mainWindow.loadFile(resolve(__dirname, './index.html'));
   mainWindow.setMenu(null);
-  isDev && mainWindow.setIgnoreMouseEvents(true);
-  isDev && mainWindow.setAlwaysOnTop(true);
-  !isDev && mainWindow.webContents.openDevTools();
+  !isDev && mainWindow.setIgnoreMouseEvents(true);
+  !isDev && mainWindow.setAlwaysOnTop(true);
+  isDev && mainWindow.webContents.openDevTools();
 
   mainWindow.on("closed" ,function(){
   	app.quit();
