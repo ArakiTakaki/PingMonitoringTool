@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useLoopPing } from '../hooks/usePing';
 import { GLOBAL_CONFIG } from '../constants/config';
+import { getRenderer } from '../three/main';
 
 const styles = StyleSheet.create({
   root: {
@@ -37,10 +38,16 @@ const styles = StyleSheet.create({
   }
 });
 const Sample: React.SFC<{}> = () => {
+  const refCanvas = React.useRef<HTMLCanvasElement>(null);
   const ping = useLoopPing({
     accessURL: GLOBAL_CONFIG.ACCESS_URL,
     interval: GLOBAL_CONFIG.INTERVAL_MILLS,
   });
+
+  React.useEffect(() => {
+    if (refCanvas.current == null) return;
+    getRenderer(refCanvas.current);
+  }, [refCanvas.current]);
 
   return (
     <div className={css(styles.root)}>
@@ -54,6 +61,15 @@ const Sample: React.SFC<{}> = () => {
         className={css(styles.bar)} 
       >
       </div>
+      <canvas 
+        ref={refCanvas}
+        width={window.innerWidth}
+        height={window.innerHeight}
+        style={{
+          maxWidth: '100%',
+          maxHeight: '100%',
+        }}
+      />
       <div 
         className={css(styles.ms)} 
       >

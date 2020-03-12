@@ -18,6 +18,7 @@
     "polished": "^3.4.4",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "three": "^0.114.0",
     "tsc": "^1.20150623.0",
     "typescript": "^3.8.3"
   },
@@ -28,12 +29,13 @@
     "@types/ping": "^0.2.0",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
+    "@types/three": "^0.103.2",
     "ts-node": "^8.6.2"
   },
   "build": {
-    "appId": "idw-electron-builder",
-    "productName": "DIW - digital information wall",
-    "copyright": "Copyright teamLab inc. All rights reserved",
+    "appId": "ping tools",
+    "productName": "ping tools",
+    "copyright": "Copyright ArakiTakaki. All rights reserved",
     "win": {
       "target": "zip"
     },
@@ -41,7 +43,8 @@
       "target": "zip"
     },
     "files": [
-      "./src/index.html"
+      "./src/index.html",
+      "./src/assets/"
     ]
   }
 }

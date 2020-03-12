@@ -1,7 +1,7 @@
 import { app, BrowserWindow, screen } from 'electron';
 import { resolve } from 'path';
 
-const isDev = false;
+const isDev = true;
 // window.gcをonにする
 app.commandLine.appendSwitch('js-flags', '--expose-gc');
 
